@@ -11,7 +11,7 @@ import { socket } from '@/utils/connect';
 import type { GameState } from './interfaces/GameState';
 import type { RoomList } from './interfaces/RoomState';
 import Logo from '@/components/Logo.vue';
-import { isProduction } from './utils/config';
+import { BOT_FEATURE_ENABLED, isProduction } from './utils/config';
 import { messageEqual, type Message } from './interfaces/ChatState';
 import ChatPanel from '@/components/panels/ChatPanel.vue';
 import RulesPanel from '@/components/panels/RulesPanel.vue';
@@ -317,7 +317,7 @@ onMounted(() => {
            TOOLS
         </n-button>
 
-        <n-button class="dock-btn" v-if="displayPage === 'game'" @click="switchPureTextMode" :type="displayPureText ? 'warning' : 'primary'" secondary>
+        <n-button class="dock-btn" v-if="displayPage === 'game' && BOT_FEATURE_ENABLED" @click="switchPureTextMode" :type="displayPureText ? 'warning' : 'primary'" secondary>
            <template #icon><n-icon><IconRobot /></n-icon></template>
            {{ displayPureText ? 'GUI' : 'TXT' }}
         </n-button>

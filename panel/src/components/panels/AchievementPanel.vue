@@ -24,7 +24,7 @@ const props = defineProps<{
                 <template #trigger>
                   <div class="achievement-item" :class="'achievement-item-' + achievement.difficulty + (achievement.unlocked ? ' achievement-item-unlocked' : ' achievement-item-locked')">
                     <n-icon :size="40">
-                      <ItemIcon :item="'Achievement' + achievement.difficulty" />
+                      <ItemIcon :item="'Achievement' + (achievement.unlocked ? '' : 'Locked') + achievement.difficulty" />
                     </n-icon>
                     <div class="achievement-desc">
                       <div class="achievement-item-title">{{ achievement.name }}</div>

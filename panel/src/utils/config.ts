@@ -8,3 +8,5 @@ export const isProduction = !import.meta.env.DEV;
 export const serverURL = isProduction ? production : local;
 
 export const DEBUG_MODE = true;
+
+export const BOT_FEATURE_ENABLED = false;

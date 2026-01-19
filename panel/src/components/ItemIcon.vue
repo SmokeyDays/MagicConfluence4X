@@ -16,6 +16,10 @@ import Achievement0 from '@/components/icons/alerts/Achievement0.vue';
 import Achievement1 from '@/components/icons/alerts/Achievement1.vue';
 import Achievement2 from '@/components/icons/alerts/Achievement2.vue';
 import Achievement3 from '@/components/icons/alerts/Achievement3.vue';
+import AchievementLocked0 from '@/components/icons/alerts/AchievementLocked0.vue';
+import AchievementLocked1 from '@/components/icons/alerts/AchievementLocked1.vue';
+import AchievementLocked2 from '@/components/icons/alerts/AchievementLocked2.vue';
+import AchievementLocked3 from '@/components/icons/alerts/AchievementLocked3.vue';
 
 const props = defineProps<{
   item: string;
@@ -52,6 +56,14 @@ const getIcon = (item: string) =>  {
       return Achievement2;
     case 'Achievement3':
       return Achievement3;
+    case 'AchievementLocked0':
+      return AchievementLocked0;
+    case 'AchievementLocked1':
+      return AchievementLocked1;
+    case 'AchievementLocked2':
+      return AchievementLocked2;
+    case 'AchievementLocked3':
+      return AchievementLocked3;
     default:
       return IconUnknown;
   }

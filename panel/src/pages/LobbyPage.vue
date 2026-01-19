@@ -212,12 +212,14 @@
                       </div>
 
                       <div class="control-group" v-if="Object.keys(props.rooms[props.currentRoom].players).length < props.rooms[props.currentRoom].max_players">
-                         <div class="group-label">添加 BOT</div>
-                         <n-space vertical size="small">
-                            <n-input v-model:value="botId" placeholder="BOT ID" size="small"/>
-                            <n-select v-model:value="botSpecie" :options="getSpecieSelectOptions()" placeholder="种族" size="small"/>
-                            <n-button dashed block size="small" type="info" @click="addBot">添加</n-button>
-                         </n-space>
+                          <template v-if="BOT_FEATURE_ENABLED">
+                            <div class="group-label">添加 BOT</div>
+                            <n-space vertical size="small">
+                                <n-input v-model:value="botId" placeholder="BOT ID" size="small"/>
+                                <n-select v-model:value="botSpecie" :options="getSpecieSelectOptions()" placeholder="种族" size="small"/>
+                                <n-button dashed block size="small" type="info" @click="addBot">添加</n-button>
+                            </n-space>
+                          </template>
                       </div>
 
                       <div class="spacer"></div>
@@ -250,6 +252,7 @@ import LogoutOutlined from '@/components/icons/LogoutOutlined.vue';
 import SpecieZhDiv from '@/components/SpecieZhDiv.vue';
 import { checkUsername } from '@/interfaces/UserState';
 import { pubMsg } from '@/utils/general';
+import { BOT_FEATURE_ENABLED } from '@/utils/config';
 
 const props = defineProps<{
   rooms: RoomList;

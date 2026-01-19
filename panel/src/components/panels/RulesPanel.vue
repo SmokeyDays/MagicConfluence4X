@@ -65,7 +65,7 @@ const nextImage = () => {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   text-align: center;
-  z-index: 1000;
+  z-index: 2000;
   max-width: 80%;
 }
 

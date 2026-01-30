@@ -6,6 +6,7 @@ import HomePage from '@/pages/HomePage.vue';
 import GamePage, { type GameProps } from '@/pages/GamePage.vue';
 import GamePureTextPage from '@/pages/GamePureTextPage.vue';
 import LobbyPage from '@/pages/LobbyPage.vue';
+import HexMapPage from '@/pages/HexMapPage.vue';
 import AlertList from '@/components/AlertList.vue';
 import { socket } from '@/utils/connect';
 import type { GameState } from './interfaces/GameState';
@@ -273,6 +274,9 @@ onMounted(() => {
           :logout="logout"
         />
       </template>
+      <template v-else-if="displayPage === 'hexmap'">
+        <HexMapPage />
+      </template>
 
       <AlertList/>
       <ChatPanel
@@ -320,6 +324,11 @@ onMounted(() => {
         <n-button class="dock-btn" v-if="displayPage === 'game' && BOT_FEATURE_ENABLED" @click="switchPureTextMode" :type="displayPureText ? 'warning' : 'primary'" secondary>
            <template #icon><n-icon><IconRobot /></n-icon></template>
            {{ displayPureText ? 'GUI' : 'TXT' }}
+        </n-button>
+
+        <n-button class="dock-btn" @click="switchPage('hexmap')" type="primary" secondary>
+           <template #icon><n-icon><IconUtils /></n-icon></template>
+           MAP
         </n-button>
       </div>
       

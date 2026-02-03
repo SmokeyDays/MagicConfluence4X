@@ -32,11 +32,11 @@ const handleSubmit = () => {
   <div class="homepage">
     <n-space vertical align="center" justify="center" class="content">
       <div class="title">
-        <h1>Sidereal Confluence Web</h1>
-        <h4>A game of trading and diplomacy in a sci-fi universe</h4>
+        <h1>Magic Confluence 4X</h1>
+        <h4>A 4X game of trading and diplomacy.</h4>
       </div>
       <div class="icon-display">
-        <ItemEntryDiv item="Culture" :count="1" :icon-width="80" :icon-height="80" />
+        <!-- <ItemEntryDiv item="Culture" :count="1" :icon-width="80" :icon-height="80" />
         <ItemEntryDiv item="Industry" :count="1" :icon-width="80" :icon-height="80" />
         <ItemEntryDiv item="Food" :count="1" :icon-width="80" :icon-height="80" />
         <ItemEntryDiv item="Information" :count="1" :icon-width="80" :icon-height="80" />
@@ -46,7 +46,7 @@ const handleSubmit = () => {
         <ItemEntryDiv item="Hypertech" :count="1" :icon-width="80" :icon-height="80" />
         <ItemEntryDiv item="WildSmall" :count="1" :icon-width="80" :icon-height="80" />
         <ItemEntryDiv item="WildBig" :count="1" :icon-width="80" :icon-height="80" />
-        <ItemEntryDiv item="Score" :count="1" :icon-width="80" :icon-height="80" />
+        <ItemEntryDiv item="Score" :count="1" :icon-width="80" :icon-height="80" /> -->
       </div>
       <n-input v-model:value="username" placeholder="Enter your username" @keyup.enter="handleSubmit" />
       <n-button type="primary" @click="handleSubmit" :disabled="!username.trim()">

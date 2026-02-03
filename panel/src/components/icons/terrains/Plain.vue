@@ -1,0 +1,42 @@
+<template>
+  <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Aesthetic: Arcane/Board Game -->
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:#2a403d;stop-opacity:1" /> <!-- Light/Mid Green Base -->
+      <stop offset="100%" style="stop-color:#0f1a15;stop-opacity:1" /> <!-- Dark Green Edge -->
+    </radialGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Hex Base -->
+  <polygon points="100,5 182,52 182,148 100,195 18,148 18,52" fill="url(#bgGrad)" stroke="#d4af37" stroke-width="2" stroke-opacity="0.4"/>
+
+  <!-- Icon: Plains (Simple Grass/Rune) -->
+  <g transform="translate(100, 100)" stroke="#58d68d" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Center Tuft -->
+    <path d="M0,0 Q-10,-20 -20,-10" />
+    <path d="M0,0 Q0,-30 0,-30" />
+    <path d="M0,0 Q10,-20 20,-10" />
+    
+    <!-- Left Tuft -->
+    <g transform="translate(-40, 10) scale(0.7)">
+       <path d="M0,0 Q-10,-20 -20,-10" />
+       <path d="M0,0 Q10,-20 10,-25" />
+    </g>
+
+    <!-- Right Tuft -->
+    <g transform="translate(40, -10) scale(0.8)">
+       <path d="M0,0 Q-5,-20 -10,-25" />
+       <path d="M0,0 Q10,-20 20,-10" />
+    </g>
+  </g>
+  
+  <!-- Magic Motes -->
+  <circle cx="80" cy="80" r="2" fill="#58d68d" opacity="0.6" />
+  <circle cx="140" cy="120" r="1.5" fill="#58d68d" opacity="0.4" />
+</svg>
+  </template>

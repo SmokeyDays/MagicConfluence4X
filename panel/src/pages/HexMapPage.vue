@@ -1,22 +1,34 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, type Ref } from 'vue';
-import { Application, Graphics, Container } from 'pixi.js';
+import { Application, Graphics, Container, Assets, Sprite, type Texture } from 'pixi.js';
 import { defineHex, Grid, rectangle, Orientation } from 'honeycomb-grid';
+import { generateMockGame } from '../utils/mock';
+import type { GameState, Troop } from '../interfaces/GameState';
+import { createTroopVisual, STAT_ICONS } from '../utils/troopVisuals';
 
 const pixiContainer: Ref<HTMLElement | null> = ref(null);
 let app: Application | null = null;
 const gridContainer = new Container();
+const troopsLayer = new Container(); // Layer for troops
 
-// Colors
-const COLOR_CYAN = 0x00e5ff;
-const COLOR_YELLOW = 0xffea00;
+// Colors & Assets
 const COLOR_STROKE = 0xffffff;
-const COLOR_HOVER = 0xffffff;
+const COLOR_HOVER = 0xffea00;
+const TERRAIN_TYPES = ['Plain', 'Hill', 'Swamp', 'Lake', 'Mountain', 'Forest'];
+const terrainTextures: Record<string, Texture> = {};
+const uiTextures: Record<string, Texture> = {};
+
+// mocked game state
+const gameState: Ref<GameState | null> = ref(null);
 
 // Define Hex configuration
 class Tile extends defineHex({ dimensions: 30, orientation: Orientation.POINTY }) {
-  // Custom property to persist color
-  color: number = Math.random() > 0.5 ? COLOR_CYAN : COLOR_YELLOW;
+  // terrainType logic removed, will read from gameState
+}
+
+function createGridFromGameState(state: GameState): Grid<Tile> {
+  const hexes = Object.values(state.map).map(cell => new Tile({ q: cell.q, r: cell.r }));
+  return new Grid(Tile, hexes);
 }
 
 onMounted(async () => {
@@ -25,7 +37,6 @@ onMounted(async () => {
   // 1. Initialize PixiJS Application
   app = new Application();
   
-  // Initialize to cover the window
   await app.init({
     resizeTo: window,
     backgroundColor: 0x050a14, // Deep space background
@@ -37,52 +48,137 @@ onMounted(async () => {
     pixiContainer.value.appendChild(app.canvas);
   }
 
-  // 2. Create Honeycomb Grid
-  // Larger grid to fill screen
-  const grid = new Grid(Tile, rectangle({ width: 30, height: 20 }));
+  // 2. Preload Textures
+  for (const t of TERRAIN_TYPES) {
+    terrainTextures[t] = await Assets.load(`/images/terrains/light/${t}.svg`);
+  }
+  
+  // Load UI Icons
+  const uiAssets = [
+    { key: STAT_ICONS.ATK_PHYSICAL, url: '/images/ui/atk_physical.svg' },
+    { key: STAT_ICONS.ATK_MAGICAL, url: '/images/ui/atk_magical.svg' },
+    { key: STAT_ICONS.DEF_PHYSICAL, url: '/images/ui/def_physical.svg' },
+    { key: STAT_ICONS.DEF_MAGICAL, url: '/images/ui/def_magical.svg' },
+    { key: STAT_ICONS.DAMAGE, url: '/images/ui/damage.svg' },
+    { key: STAT_ICONS.SIZE, url: '/images/ui/size.svg' },
+    { key: STAT_ICONS.DEFAULT_TROOP, url: '/images/troops/militia.svg' },
+  ];
 
-  // 3. Setup Container
+  for (const asset of uiAssets) {
+    uiTextures[asset.key] = await Assets.load(asset.url);
+  }
+
+  // 3. Initialize Data
+  // gameState.value = generateMockGame(30, 20);
+  gameState.value = generateMockGame();
+
+  // 4. Create Honeycomb Grid (geometry only)
+  // Auto-detect grid shape from GameState
+  const grid = createGridFromGameState(gameState.value);
+
+  // 5. Setup Container
   gridContainer.x = 100;
   gridContainer.y = 100;
-  
-  // Enable sorting/z-index if needed, but simple painter's algo is fine for 2D
   app.stage.addChild(gridContainer);
   
-  // Make stage interactive for panning
   app.stage.eventMode = 'static';
   app.stage.hitArea = app.screen;
 
-  // 4. Render Grid
+  // 6. Render Grid
   grid.forEach((hex) => {
-    const graphics = new Graphics();
+    // A. Retrieve Cell Data
+    const key = `${hex.q},${hex.r}`;
+    const cellData = gameState.value?.map[key];
     
-    // Draw initial state
-    drawHex(graphics, hex, hex.color, 0.3); // Low alpha for base
+    // Safety check - if data doesn't exist, skip rendering terrain or render default
+    if (!cellData) return;
 
-    // Interaction
+    // B. Terrain Sprite
+    const texture = terrainTextures[cellData.terrain];
+    if (texture) {
+      const sprite = new Sprite(texture);
+      sprite.anchor.set(0.5);
+      sprite.x = hex.x;
+      sprite.y = hex.y;
+      
+      // Scaling: Hex height (pointy) = 60px. SVG content approx 190/200px.
+      // Scale = 62 / 200 for slight overlap/fit
+      const scale = 62 / 200; 
+      sprite.scale.set(scale);
+      gridContainer.addChild(sprite);
+    }
+
+    // B. Interaction Overlay
+    const graphics = new Graphics();
+    drawHighlight(graphics, hex, false);
+
     graphics.eventMode = 'static';
     graphics.cursor = 'pointer';
 
-    graphics.on('pointerover', () => {
-      // Highlight: brighter and more opaque
-      drawHex(graphics, hex, hex.color, 0.8, true); 
-    });
-
-    graphics.on('pointerout', () => {
-      drawHex(graphics, hex, hex.color, 0.3);
-    });
+    graphics.on('pointerover', () => drawHighlight(graphics, hex, true));
+    graphics.on('pointerout', () => drawHighlight(graphics, hex, false));
 
     gridContainer.addChild(graphics);
   });
 
+  // Ensure troops layer is above terrain
+  gridContainer.addChild(troopsLayer);
+
+  // 7. Render Troops
+  renderTroops(grid);
+
   setupInteraction();
 });
 
-function drawHex(g: Graphics, hex: Tile, color: number, alpha: number, hover: boolean = false) {
+function renderTroops(grid: Grid<Tile>) {
+  if (!gameState.value) return;
+  
+  troopsLayer.removeChildren(); // clear previous
+
+  gameState.value.troops.forEach((troop: Troop) => {
+    // troop.location is [q, r]
+    const [q, r] = troop.location;
+    // Find the hex in the grid to get pixel coordinates
+    // grid.getHex({ q, r }) might require exact object matching depending on version, 
+    // easiest is to manually find or iterate if getHex isn't reliable, but usually it is.
+    // Honeycomb 3.x+ uses createHex or getHex. 
+    // Since we created the grid with `createGridFromGameState`, it should contain the hex.
+    // If the troop is off-grid (not in map), we skip it or render at 0,0?
+    
+    // We can just construct a hex to get coordinates if the grid logic allows, 
+    // but the grid instance manages coordinates relative to layout.
+    
+    // Safe lookup:
+    let targetHex: Tile = grid.getHex({ q, r }) as Tile;
+    console.log('Rendering troop:', troop.id, 'at hex:', targetHex);
+
+    if (targetHex) {
+      const troopContainer = createTroopVisual(troop, uiTextures);
+      troopContainer.x = targetHex.x;
+      troopContainer.y = targetHex.y;
+      
+      // Make troop interactive if needed
+      troopContainer.eventMode = 'static';
+      troopContainer.cursor = 'pointer';
+      // troopContainer.on('pointerdown', () => console.log('Clicked troop:', troop.id));
+
+      troopsLayer.addChild(troopContainer);
+    }
+  });
+}
+
+
+function drawHighlight(g: Graphics, hex: Tile, hover: boolean) {
   g.clear();
   g.poly(hex.corners);
-  g.stroke({ width: hover ? 3 : 1, color: hover ? COLOR_HOVER : COLOR_STROKE, alpha: hover ? 1 : 0.5 });
-  g.fill({ color: color, alpha: alpha });
+  
+  if (hover) {
+    g.stroke({ width: 2, color: COLOR_HOVER, alpha: 1 });
+    g.fill({ color: COLOR_HOVER, alpha: 0.1 });
+  } else {
+    g.stroke({ width: 0, color: 0, alpha: 0 });
+    g.fill({ color: 0, alpha: 0 });
+  }
 }
 
 // Pan and Zoom Logic
@@ -116,7 +212,6 @@ function setupInteraction() {
   app.stage.on('pointerupoutside', stopDrag);
 
   // Zooming
-  // Add listener to the canvas element for native wheel events
   app.canvas.addEventListener('wheel', (e) => {
     e.preventDefault();
     const zoomIntensity = 0.1;
@@ -153,10 +248,10 @@ onUnmounted(() => {
 
 <template>
   <div class="hex-map-page">
-    <div class="title-overlay">
-      <h2>Sector Map: Alpha-9</h2>
+    <!-- <div class="title-overlay">
+      <h2>MagicConfluence4X</h2>
       <p class="subtitle">Hex Grid System v1.0 // Pan & Zoom Enabled</p>
-    </div>
+    </div> -->
     
     <div ref="pixiContainer" class="pixi-container"></div>
   </div>
@@ -181,18 +276,15 @@ onUnmounted(() => {
   z-index: 10;
   text-align: center;
   pointer-events: none; /* Allow clicking through the text */
-  text-shadow: 0 0 10px rgba(0, 229, 255, 0.7);
+  text-shadow: 0 0 10px rgba(255, 251, 0, 0.7);
   background: rgba(0, 0, 0, 0.6);
   padding: 10px 30px;
-  border: 1px solid rgba(0, 229, 255, 0.3);
   border-radius: 4px;
   backdrop-filter: blur(4px);
 }
 
 h2 {
   margin: 0;
-  color: #00e5ff;
-  font-family: 'Orbitron', sans-serif;
   letter-spacing: 2px;
 }
 
@@ -200,7 +292,6 @@ h2 {
   margin: 5px 0 0 0;
   color: #ffea00;
   font-size: 0.8rem;
-  font-family: 'Share Tech Mono', monospace;
 }
 
 .pixi-container {

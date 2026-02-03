@@ -61,7 +61,7 @@ const nextImage = () => {
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;
-  background-color: var(--scifi-bg);
+  background-color: var(--magic-bg);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   text-align: center;

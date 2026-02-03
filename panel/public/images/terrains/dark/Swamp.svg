@@ -1,0 +1,30 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1a0f1e;stop-opacity:1" /> <!-- Deep Purple -->
+      <stop offset="100%" style="stop-color:#0d0616;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+
+  <!-- Hex Base -->
+  <polygon points="100,5 182,52 182,148 100,195 18,148 18,52" fill="url(#bgGrad)" stroke="#d4af37" stroke-width="2" stroke-opacity="0.4"/>
+
+  <!-- Icon: Swamp (Vines/Bubbles) -->
+  <g transform="translate(100, 100)">
+    <!-- Murky Water Lines -->
+    <path d="M-60,20 C-40,30 -20,10 0,20 C20,30 40,10 60,20" stroke="#a569bd" stroke-width="2" fill="none" opacity="0.6"/>
+    <path d="M-50,35 C-30,45 -10,25 20,35" stroke="#a569bd" stroke-width="2" fill="none" opacity="0.4"/>
+    
+    <!-- Vegetation/Reeds -->
+    <g stroke="#27ae60" stroke-width="2" stroke-linecap="round">
+        <path d="M-30,25 L-30,0 L-35,5 M-30,0 L-25,-5" />
+        <path d="M20,25 L20,-10 L15,-5 M20,-10 L25,0" />
+        <path d="M40,30 L40,10" />
+    </g>
+
+    <!-- Bubbles -->
+    <circle cx="-10" cy="15" r="4" stroke="#a569bd" fill="none" stroke-width="1.5" />
+    <circle cx="5" cy="5" r="2.5" stroke="#a569bd" fill="none" stroke-width="1.5" />
+    <circle cx="35" cy="30" r="3" stroke="#a569bd" fill="none" stroke-width="1.5" />
+  </g>
+</svg>

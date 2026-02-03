@@ -133,7 +133,7 @@
                         </div>
                         <div class="p-specie">
                            种族: 
-                           <span :style="{ color: info.specie ? getSpecieColor(info.specie) : 'var(--scifi-text-dim)' }">
+                           <span :style="{ color: info.specie ? getSpecieColor(info.specie) : 'var(--magic-text-dim)' }">
                              {{ info.specie ? getSpecieZhName(info.specie) : 'NULL' }}
                            </span>
                         </div>
@@ -363,8 +363,8 @@ const getSpecieSelectOptions = () => {
 
 /* === Scifi Panel System === */
 .scifi-panel {
-  background: var(--scifi-card-bg);
-  border: 1px solid var(--scifi-border);
+  background: var(--magic-card-bg);
+  border: 1px solid var(--magic-border);
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   /* 去圆角，硬朗风格 */
   border-radius: 0; 
@@ -372,7 +372,7 @@ const getSpecieSelectOptions = () => {
 .scifi-panel.bottom-border-only {
   background: rgba(5, 10, 20, 0.9);
   border: none;
-  border-bottom: 2px solid var(--scifi-primary);
+  border-bottom: 2px solid var(--magic-primary);
 }
 
 /* === Navbar === */
@@ -387,7 +387,7 @@ const getSpecieSelectOptions = () => {
 .deco-block {
   width: 10px;
   height: 20px;
-  background: var(--scifi-primary);
+  background: var(--magic-primary);
   margin-right: 10px;
   display: inline-block;
 }
@@ -396,7 +396,7 @@ const getSpecieSelectOptions = () => {
   font-family: 'Orbitron', sans-serif;
   letter-spacing: 2px;
   font-size: 1.2rem;
-  color: var(--scifi-text);
+  color: var(--magic-text);
   margin: 0;
 }
 .nav-right {
@@ -406,13 +406,13 @@ const getSpecieSelectOptions = () => {
   font-family: 'Share Tech Mono', monospace;
 }
 .highlight {
-  color: var(--scifi-primary);
-  text-shadow: 0 0 5px var(--scifi-primary);
+  color: var(--magic-primary);
+  text-shadow: 0 0 5px var(--magic-primary);
 }
 .v-sep {
   width: 1px;
   height: 20px;
-  background: var(--scifi-border);
+  background: var(--magic-border);
 }
 
 /* === Content === */
@@ -440,11 +440,11 @@ const getSpecieSelectOptions = () => {
 }
 .action-title {
   font-family: 'Orbitron', sans-serif;
-  color: var(--scifi-text);
+  color: var(--magic-text);
   font-size: 1.1rem;
 }
 .action-title .icon {
-  color: var(--scifi-primary);
+  color: var(--magic-primary);
   margin-right: 5px;
 }
 .create-room-group { width: 320px; }
@@ -456,14 +456,14 @@ const getSpecieSelectOptions = () => {
   justify-content: center;
   align-items: center;
   height: 300px;
-  border: 1px dashed var(--scifi-border);
-  color: var(--scifi-text-dim, #777);
+  border: 1px dashed var(--magic-border);
+  color: var(--magic-text-dim, #777);
   background: rgba(0,0,0,0.2);
 }
 .scan-line {
   width: 100%;
   height: 2px;
-  background: var(--scifi-primary);
+  background: var(--magic-primary);
   animation: scan 2s infinite linear;
   opacity: 0.5;
   margin-bottom: 20px;
@@ -495,14 +495,14 @@ const getSpecieSelectOptions = () => {
   transform: translateY(-2px);
 }
 .room-card-container:hover .room-card-inner {
-  border-color: var(--scifi-primary);
+  border-color: var(--magic-primary);
   box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
 }
 
 /* Card Body */
 .room-card-inner {
   background: rgba(10, 20, 30, 0.8);
-  border: 1px solid var(--scifi-border);
+  border: 1px solid var(--magic-border);
   height: 100%;
   display: flex;
   /* 切角设计 */
@@ -518,11 +518,11 @@ const getSpecieSelectOptions = () => {
   transition: background 0.3s;
 }
 .room-joined .status-strip { 
-  background: var(--scifi-primary); 
-  box-shadow: 0 0 10px var(--scifi-primary); 
+  background: var(--magic-primary); 
+  box-shadow: 0 0 10px var(--magic-primary); 
 }
-.room-available .status-strip { background: var(--scifi-success); }
-.room-full .status-strip { background: var(--scifi-error); }
+.room-available .status-strip { background: var(--magic-success); }
+.room-full .status-strip { background: var(--magic-error); }
 
 .card-content {
   flex: 1;
@@ -546,15 +546,15 @@ const getSpecieSelectOptions = () => {
 }
 /* LED Status Light */
 .led { width: 8px; height: 8px; border-radius: 50%; background: #333; }
-.led.active { background: var(--scifi-error); box-shadow: 0 0 5px var(--scifi-error); animation: blink 1s infinite; }
-.led.full { background: var(--scifi-warning); }
-.led.open { background: var(--scifi-success); box-shadow: 0 0 5px var(--scifi-success); }
+.led.active { background: var(--magic-error); box-shadow: 0 0 5px var(--magic-error); animation: blink 1s infinite; }
+.led.full { background: var(--magic-warning); }
+.led.open { background: var(--magic-success); box-shadow: 0 0 5px var(--magic-success); }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
 .card-body { flex: 1; font-size: 0.85rem; }
 .data-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-family: 'Share Tech Mono', monospace; }
-.label { color: var(--scifi-text-dim, #666); }
-.value { color: var(--scifi-text); }
+.label { color: var(--magic-text-dim, #666); }
+.value { color: var(--magic-text); }
 .text-dim { color: #555; font-style: italic; }
 
 .card-footer {
@@ -563,7 +563,7 @@ const getSpecieSelectOptions = () => {
   justify-content: space-between;
   align-items: center;
   font-size: 0.75rem;
-  color: var(--scifi-text-dim, #777);
+  color: var(--magic-text-dim, #777);
   border-top: 1px dashed rgba(255,255,255,0.1);
   padding-top: 6px;
 }
@@ -577,8 +577,8 @@ const getSpecieSelectOptions = () => {
   font-family: 'Orbitron', sans-serif;
 }
 .back-btn { font-family: 'Share Tech Mono', monospace; font-weight: bold; }
-.room-title { margin-left: 10px; font-size: 1.2rem; color: var(--scifi-primary); }
-.room-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 0.9rem; color: var(--scifi-text-dim); }
+.room-title { margin-left: 10px; font-size: 1.2rem; color: var(--magic-primary); }
+.room-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 0.9rem; color: var(--magic-text-dim); }
 
 .room-content-split { flex: 1; display: flex; gap: 20px; overflow: hidden; }
 
@@ -586,15 +586,15 @@ const getSpecieSelectOptions = () => {
 .panel-header {
   padding: 10px 15px;
   background: rgba(0, 212, 255, 0.05);
-  border-bottom: 1px solid var(--scifi-border);
+  border-bottom: 1px solid var(--magic-border);
   font-family: 'Orbitron', sans-serif;
   font-size: 0.9rem;
   display: flex;
   align-items: center;
-  color: var(--scifi-primary);
+  color: var(--magic-primary);
 }
-.deco-square { width: 8px; height: 8px; background: var(--scifi-primary); margin-right: 8px; }
-.deco-square.warning { background: var(--scifi-warning); }
+.deco-square { width: 8px; height: 8px; background: var(--magic-primary); margin-right: 8px; }
+.deco-square.warning { background: var(--magic-warning); }
 
 .left-panel { flex: 1; display: flex; flex-direction: column; min-width: 0; }
 .right-panel { width: 340px; display: flex; flex-direction: column; flex-shrink: 0; }
@@ -615,7 +615,7 @@ const getSpecieSelectOptions = () => {
 }
 .player-item.me-item {
   background: rgba(0, 212, 255, 0.05);
-  border: 1px solid var(--scifi-primary);
+  border: 1px solid var(--magic-primary);
 }
 .player-item.bot-item {
   border-style: dashed;
@@ -625,17 +625,17 @@ const getSpecieSelectOptions = () => {
   position: absolute;
   top: 0; left: 0;
   width: 0; height: 0;
-  border-top: 6px solid var(--scifi-border);
+  border-top: 6px solid var(--magic-border);
   border-right: 6px solid transparent;
 }
-.me-item .corner-mark { border-top-color: var(--scifi-primary); }
+.me-item .corner-mark { border-top-color: var(--magic-primary); }
 
 .p-id { font-family: 'Share Tech Mono', monospace; font-size: 1.1rem; color: #fff; display: flex; align-items: center; gap: 5px; }
-.p-specie { font-size: 0.8rem; color: var(--scifi-text-dim); }
+.p-specie { font-size: 0.8rem; color: var(--magic-text-dim); }
 
 .tag { font-size: 0.6rem; padding: 1px 4px; background: #333; border-radius: 2px; }
 .tag.bot { background: #1431d6; color: #e0e0e0; }
-.tag.me { background: var(--scifi-primary); color: #9d3030; font-weight: bold; }
+.tag.me { background: var(--magic-primary); color: #9d3030; font-weight: bold; }
 
 .status-box {
   font-family: 'Orbitron', sans-serif;
@@ -645,20 +645,20 @@ const getSpecieSelectOptions = () => {
   color: #666;
 }
 .status-box.ready {
-  border-color: var(--scifi-success);
-  color: var(--scifi-success);
+  border-color: var(--magic-success);
+  color: var(--magic-success);
   box-shadow: 0 0 5px rgba(0, 255, 157, 0.2);
 }
 .status-box.pending {
-  border-color: var(--scifi-warning);
-  color: var(--scifi-warning);
+  border-color: var(--magic-warning);
+  color: var(--magic-warning);
 }
 .del-bot-btn { margin-left: 10px; }
 
 /* Right Controls */
 .control-group { margin-bottom: 20px; }
-.group-label { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; margin-bottom: 5px; color: var(--scifi-text); }
-.h-sep { height: 1px; background: var(--scifi-border); margin: 20px 0; opacity: 0.5; }
+.group-label { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; margin-bottom: 5px; color: var(--magic-text); }
+.h-sep { height: 1px; background: var(--magic-border); margin: 20px 0; opacity: 0.5; }
 .spacer { flex: 1; }
 
 .join-box { margin-top: auto; margin-bottom: auto; }

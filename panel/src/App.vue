@@ -3,8 +3,6 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import { NButton, NSpace, NFloatButton, NIcon, NBadge } from 'naive-ui';
 import { NConfigProvider, darkTheme, type GlobalThemeOverrides, NGlobalStyle } from 'naive-ui';
 import HomePage from '@/pages/HomePage.vue';
-import GamePage, { type GameProps } from '@/pages/GamePage.vue';
-import GamePureTextPage from '@/pages/GamePureTextPage.vue';
 import LobbyPage from '@/pages/LobbyPage.vue';
 import HexMapPage from '@/pages/HexMapPage.vue';
 import AlertList from '@/components/AlertList.vue';
@@ -27,6 +25,7 @@ import IconUtils from './components/icons/IconUtils.vue';
 import IconRobot from './components/icons/IconRobot.vue';
 import { pubMsg } from './utils/general';
 import { sidConThemeOverrides } from './interfaces/SidConTheme';
+import { generateMockGame } from './utils/mock';
 
 const rooms = ref<RoomList>({});
 const displayPage = ref('home');
@@ -44,33 +43,7 @@ const switchPureTextMode = () => {
   displayPureText.value = !displayPureText.value;
 };
 
-const gameProps = ref({
-  scaleFactor: 100,
-  offsetX: 0,
-  offsetY: 0,
-});
-
-const gameState = ref<GameState>({
-  players: [],
-  current_round: 0,
-  end_round: 5,
-  stage: '',
-  room_name: '',
-  research_bid_cards: [],
-  colony_bid_cards: [],
-  current_pick: {
-    type: '',
-    player: '',
-    bid: 0
-  },
-  current_discard_colony_player: '',
-  proposals: {},
-  research_bid_priority: [],
-  colony_bid_priority: [],
-  Kajsjavikalimm_choose_split: null,
-  favor_buff_in_game: false,
-  faderan_relic_world_deck_size: 0
-});
+const gameState = ref<GameState>(generateMockGame());
 
 const setCurrentRoom = (room: string) => {
   currentRoom.value = room;
@@ -88,11 +61,6 @@ socket.on('room-list', (data: {rooms: RoomList}) => {
   rooms.value = data.rooms;
   console.log(data);
 });
-
-
-const updateGameProps = (newProps: GameProps) => {
-  gameProps.value = newProps;
-};
 
 const submitUsername = (newUsername: string) => {
   if (checkUsername(newUsername)) {
@@ -248,22 +216,22 @@ onMounted(() => {
   <n-config-provider :theme="darkTheme" :theme-overrides="sidConThemeOverrides">
     <n-global-style />
     
-    <div class="sci-fi-background">
-      <div class="grid-overlay"></div>
+    <div class="magic-background">
+      <div class="texture-overlay"></div>
     </div>
 
     <div class="app">
       <template v-if="displayPage === 'home'">
         <HomePage :submitUsername="submitUsername" />
       </template>
-      <template v-else-if="displayPage === 'game'">
+      <!-- <template v-else-if="displayPage === 'game'">
         <template v-if="displayPureText">
           <GamePureTextPage :username="username" :gameState="gameState" :rooms="rooms"/>
         </template>
         <template v-else>
           <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState" :switchPage="switchPage"/>
         </template>
-      </template>
+      </template> -->
       <template v-else-if="displayPage === 'lobby'">
         <LobbyPage 
           :rooms="rooms" 
@@ -337,97 +305,114 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* 引入科幻字体 (如果可以在 index.html 引入更好) */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+/* 引入魔法/古典字体 */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap');
 
 /* 全局布局 */
 .app {
   width: 100vw;
   min-height: 100vh;
   position: relative;
-  z-index: 1; /* 确保内容在背景之上 */
-  /* 使用科技感字体 */
-  font-family: 'Share Tech Mono', 'Consolas', monospace;
-  color: #e0e0e0;
+  z-index: 1;
+  /* 使用古典魔法字体 */
+  font-family: 'MedievalSharp', 'Cinzel', serif;
+  color: var(--magic-text);
 }
 
 /* --- 背景特效 --- */
-.sci-fi-background {
+.magic-background {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   z-index: 0;
-  background-color: #050a14;
+  background-color: var(--magic-bg);
   background-image: 
-    radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 60%);
+    radial-gradient(circle at 20% 30%, rgba(100, 50, 150, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
   pointer-events: none;
 }
 
-/* 网格线效果 */
-.grid-overlay {
+/* 纹理叠加 (取代网格) */
+.texture-overlay {
   width: 100%;
   height: 100%;
+  /* 模拟古老羊皮纸/魔法迷雾的噪点或微纹理 */
   background-image: 
-    linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask-image: linear-gradient(to bottom, black 40%, transparent 100%); /* 渐隐效果 */
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 10px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 10px);
+  mask-image: radial-gradient(circle, black 60%, transparent 100%);
 }
 
-/* --- 底部系统坞 (System Dock) --- */
+/* --- 底部系统坞 (System Dock) - 魔法风格 --- */
 .system-dock {
   position: fixed;
-  bottom: 20px;
+  bottom: 30px; /* 稍微抬高 */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 15px;
-  padding: 10px 20px;
-  background: rgba(0, 10, 20, 0.85);
-  border: 1px solid rgba(0, 212, 255, 0.3);
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
-  backdrop-filter: blur(5px);
+  padding: 12px 25px;
+  
+  /* 木质/黑曜石风格背景 */
+  background: var(--magic-bg-card); /* 深色背景 */
+  
+  /* 金色边框 */
+  border: 2px solid var(--magic-border);
+  border-radius: 16px; /* 圆润边角 */
+  
+  /* 奥术光晕 */
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.5), /* 阴影 */
+    0 0 20px rgba(212, 175, 55, 0.2), /* 金色微光 */
+    inset 0 0 10px rgba(0, 0, 0, 0.5); /* 内阴影增加厚度感 */
+    
+  backdrop-filter: blur(8px);
   z-index: 1000;
-  /* 切角效果 (Clip-path) */
-  clip-path: polygon(
-    15px 0, 100% 0, 
-    100% calc(100% - 15px), calc(100% - 15px) 100%, 
-    0 100%, 0 15px
-  );
+  
+  /* 移除切角，改为古典装饰 */
+  clip-path: none;
 }
 
-/* 装饰线 */
+/* 装饰线 - 改为顶部金色镶边 */
 .dock-deco-line {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+  top: 4px;
+  left: 10%;
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--magic-border), transparent);
 }
 
 .dock-btn {
   height: 48px;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Cinzel', serif; /* 标题/按钮使用 Cinzel */
+  font-weight: 700;
   letter-spacing: 1px;
+  color: var(--magic-primary);
 }
 
-/* 覆盖 Naive UI 内部样式以适配 Dock */
+/* 覆盖 Naive UI 内部样式 */
 :deep(.n-button) {
   background-color: transparent;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 :deep(.n-button:hover) {
-  background-color: rgba(0, 212, 255, 0.15);
-  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+  background-color: var(--magic-primary-suppl);
+  box-shadow: 0 0 15px var(--magic-primary-suppl);
+  color: var(--magic-primary-hover);
+  transform: translateY(-2px); /* 悬浮效果 */
+}
+:deep(.n-button .n-icon) {
+  color: var(--magic-primary);
 }
 
 /* 聊天气泡位置微调 */
 .dock-badge {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  overflow: visible;
+  top: 2px;
+  right: 2px;
 }
 </style>

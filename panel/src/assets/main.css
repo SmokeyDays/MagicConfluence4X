@@ -3,54 +3,61 @@
 
 /* src/assets/main.css */
 :root {
-  /* 定义语义化的 CSS 变量，对应 TS 中的 palette */
-  --scifi-primary: #00d4ff;
-  --scifi-bg: #050a14;
-  --scifi-card-bg: rgba(0, 20, 40, 0.8);
-  --scifi-border: rgba(0, 212, 255, 0.3);
-  --scifi-text: #e0e0e0;
-  --scifi-font: 'Share Tech Mono', monospace;
+  /* 魔法与奥术风格 (Magic & Arcane) - 对应 TS Palette */
   
-  --scifi-primary: #00d4ff;
-  --scifi-primary-hover: #5ce1ff;
-  --scifi-primary-pressed: #009bbd;
-  --scifi-primary-suppl: rgba(0, 212, 255, 0.15);
-  --scifi-info: #b0056cff;
-  --scifi-success: #00ff9d;
-  --scifi-warning: #f2c94c;
-  --scifi-error: #ff3b3b;
+  /* 主色调：奥术金/符文亮色 */
+  --magic-primary: #d4af37; 
+  --magic-primary-hover: #f7dc6f;
+  --magic-primary-pressed: #9a7d0a;
+  --magic-primary-suppl: rgba(212, 175, 55, 0.2);
 
-  --scifi-bg-base: #050a14;
-  --scifi-bg-card: rgba(0, 20, 40, 0.85);
-  --scifi-bg-overlay: rgba(0, 10, 20, 0.95);
+  /* 背景色：深邃虚空/暗紫色 */
+  --magic-bg: #150b21;
+  --magic-bg-base: #0d0616;
+  --magic-bg-card: rgba(35, 20, 50, 0.9); /* 半透明羊皮纸/黑曜石背景 */
+  --magic-bg-overlay: rgba(10, 5, 15, 0.95);
 
-  --scifi-text-base: #e0e0e0;
-  --scifi-text-dim: rgba(255, 255, 255, 0.5);
+  /* 文本色：羊皮纸白/古银 */
+  --magic-text: #e8dcc5;
+  --magic-text-base: #e8dcc5;
+  --magic-text-dim: rgba(232, 220, 197, 0.6);
 
-  --scifi-border: rgba(0, 212, 255, 0.3);
-  --scifi-border-strong: rgba(0, 212, 255, 0.6);
+  /* 状态色 */
+  --magic-info: #a569bd;    /* 秘法紫 */
+  --magic-success: #27ae60; /* 森林绿 */
+  --magic-warning: #e67e22; /* 火焰橙 */
+  --magic-error: #c0392b;   /* 鲜血红 */
+
+  /* 边框色：做旧金/铜 */
+  --magic-border: rgba(212, 175, 55, 0.4);
+  --magic-border-strong: rgba(212, 175, 55, 0.8);
+
+  /* 字体 */
+  --magic-font: 'Cinzel', serif;
 }
 
 body {
   margin: 0;
-  background-color: var(--scifi-bg);
-  color: var(--scifi-text);
-  font-family: var(--scifi-font);
-  overflow-x: hidden; /* 防止移动端侧滑 */
+  background-color: var(--magic-bg);
+  color: var(--magic-text);
+  font-family: var(--magic-font);
+  overflow-x: hidden;
 }
 
-/* 全局滚动条样式 - 赛博朋克风 */
+/* 全局滚动条样式 - 古典卷轴风 */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #000; 
+  background: #1e122b; 
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--scifi-border); 
-  border: 1px solid var(--scifi-primary);
+  background: #5b4277; 
+  border: 1px solid var(--magic-border);
+  border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--scifi-primary); 
+  background: var(--magic-primary);
+  box-shadow: 0 0 5px var(--magic-primary);
 }

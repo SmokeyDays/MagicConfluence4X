@@ -21,6 +21,13 @@ import AchievementLocked1 from '@/components/icons/alerts/AchievementLocked1.vue
 import AchievementLocked2 from '@/components/icons/alerts/AchievementLocked2.vue';
 import AchievementLocked3 from '@/components/icons/alerts/AchievementLocked3.vue';
 
+import Forest from '@/components/icons/terrains/Forest.vue';
+import Hill from '@/components/icons/terrains/Hill.vue';
+import Mountain from '@/components/icons/terrains/Mountain.vue';
+import Swamp from '@/components/icons/terrains/Swamp.vue';
+import Lake from '@/components/icons/terrains/Lake.vue';
+import Plain from '@/components/icons/terrains/Plain.vue';
+
 const props = defineProps<{
   item: string;
 }>();
@@ -64,10 +71,23 @@ const getIcon = (item: string) =>  {
       return AchievementLocked2;
     case 'AchievementLocked3':
       return AchievementLocked3;
+    case 'Forest':
+      return Forest;
+    case 'Hill':
+      return Hill;
+    case 'Mountain':
+      return Mountain;
+    case 'Swamp':
+      return Swamp;
+    case 'Lake':
+      return Lake;
+    case 'Plain':
+      return Plain;
     default:
       return IconUnknown;
   }
 };
+
 </script>
 
 <template>

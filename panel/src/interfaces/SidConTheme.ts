@@ -1,31 +1,31 @@
 import { type GlobalThemeOverrides } from 'naive-ui';
 
-// 1. 定义调色板 (方便在 JS/TS 中复用颜色逻辑)
+// 1. 定义调色板 (魔法与奥术风格 - Magic & Arcane)
 export const sidConPalette = {
-  primary: '#00d4ff',        // 核心青色 (Core Cyan)
-  primaryHover: '#5ce1ff',   // 高亮青
-  primaryPressed: '#009bbd', // 按下深青
-  primarySuppl: 'rgba(0, 212, 255, 0.15)', // 辅助底色
+  primary: '#d4af37',        // 奥术金 (Arcane Gold)
+  primaryHover: '#f7dc6f',   // 辉光金
+  primaryPressed: '#9a7d0a', // 古铜金
+  primarySuppl: 'rgba(212, 175, 55, 0.2)', // 魔法光晕
 
-  info: '#b0056cff',           // 信息色
-  success: '#00ff9d',        // 霓虹绿 (Neon Green)
-  warning: '#f2c94c',        // 琥珀黄 (Amber)
-  error: '#ff3b3b',          // 警报红 (Alert Red)
+  info: '#a569bd',           // 秘法紫 (Arcane Purple)
+  success: '#27ae60',        // 森林绿 (Forest Green)
+  warning: '#e67e22',        // 火焰橙 (Fire Orange)
+  error: '#c0392b',          // 鲜血红 (Blood Red)
 
-  bgBase: '#050a14',         // 深空黑 (Deep Space)
-  bgCard: 'rgba(0, 20, 40, 0.85)', // 半透明面板背景
-  bgOverlay: 'rgba(0, 10, 20, 0.95)', // 弹窗背景
+  bgBase: '#150b21',         // 虚空黑 (Void Black)
+  bgCard: 'rgba(35, 20, 50, 0.9)', // 黑曜石/羊皮纸背景
+  bgOverlay: 'rgba(10, 5, 15, 0.95)', // 模态框深色背景
   
-  textBase: '#e0e0e0',       // 主文本
-  textDim: 'rgba(255, 255, 255, 0.5)', // 次级文本
+  textBase: '#e8dcc5',       // 羊皮纸白 (Parchment)
+  textDim: 'rgba(232, 220, 197, 0.6)', // 褪色文字
   
-  border: 'rgba(0, 212, 255, 0.3)', // 默认边框
-  borderStrong: 'rgba(0, 212, 255, 0.6)', // 强调边框
+  border: 'rgba(212, 175, 55, 0.4)', // 魔法边框
+  borderStrong: 'rgba(212, 175, 55, 0.8)', // 强力结界
 };
 
-// 2. 定义字体栈 (优先使用本地科幻字体)
-const fontStack = '"Orbitron", "Share Tech Mono", "Smiley Sans", "Microsoft YaHei", "PingFang SC", sans-serif';
-const titleFontStack = '"Orbitron", "Share Tech Mono", sans-serif';
+// 2. 定义字体栈 (优先使用古典魔法字体)
+const fontStack = '"MedievalSharp", "Georgia", "Times New Roman", serif';
+const titleFontStack = '"Cinzel", "Trajan Pro", "Times New Roman", serif';
 
 function hexToRgba(hex: string, alpha: number): string {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -37,32 +37,26 @@ function hexToRgba(hex: string, alpha: number): string {
 const createButtonVariant = (color: string, typeSuffix: string = '') => {
   const suffix = typeSuffix;
   return {
-    // 1. 文本颜色：常态为彩色，悬浮/按下为白色
+    // 1. 文本颜色：常态为金色/主题色，悬浮为亮白
     [`textColor${suffix}`]: color,
     [`textColorHover${suffix}`]: '#ffffff',
     [`textColorPressed${suffix}`]: '#ffffff',
     [`textColorFocus${suffix}`]: color,
-    [`textColorDisabled${suffix}`]: color,
+    [`textColorDisabled${suffix}`]: hexToRgba(color, 0.5),
     
-    [`textColorText${suffix}`]: color,
-    [`textColorTextHover${suffix}`]: '#ffffff',
-    [`textColorTextPressed${suffix}`]: '#ffffff',
-    [`textColorTextFocus${suffix}`]: color,
-    [`textColorTextDisabled${suffix}`]: color,
-
-    // 2. 边框颜色：始终有色，保持扁平硬朗感
+    // 2. 边框颜色
     [`border${suffix}`]: `1px solid ${color}`,
     [`borderHover${suffix}`]: `1px solid ${color}`,
-    [`borderPressed${suffix}`]: `1px solid ${color}`, // 或者稍微加深
+    [`borderPressed${suffix}`]: `1px solid ${color}`,
     [`borderFocus${suffix}`]: `1px solid ${color}`,
-    [`borderDisabled${suffix}`]: `1px solid ${color}`,
+    [`borderDisabled${suffix}`]: `1px solid ${hexToRgba(color, 0.5)}`,
 
-    // 3. 背景颜色：常态透明(幽灵)，悬浮/按下出现半透明色块
-    [`color${suffix}`]: color, 
-    [`colorHover${suffix}`]: hexToRgba(color, 0.15),
-    [`colorPressed${suffix}`]: hexToRgba(color, 0.3),
-    [`colorFocus${suffix}`]: hexToRgba(color, 0.15),
-    [`colorDisabled${suffix}`]: color,
+    // 3. 背景颜色：常态透明，悬浮出现魔法光晕
+    [`color${suffix}`]: 'transparent', 
+    [`colorHover${suffix}`]: hexToRgba(color, 0.2),
+    [`colorPressed${suffix}`]: hexToRgba(color, 0.4),
+    [`colorFocus${suffix}`]: hexToRgba(color, 0.2),
+    [`colorDisabled${suffix}`]: 'transparent',
     
     [`rippleColor${suffix}`]: color, 
   };
@@ -91,11 +85,11 @@ export const sidConThemeOverrides: GlobalThemeOverrides = {
     textColor2: sidConPalette.textBase,
     textColor3: sidConPalette.textDim,
 
-    // 字体与圆角
+    // 字体与圆角 - 风格化调整
     fontFamily: fontStack,
-    fontFamilyMono: fontStack,
-    borderRadius: '0px',       // 【关键】去圆角
-    borderRadiusSmall: '0px',
+    fontFamilyMono: fontStack, // 魔法书中等宽字体较少，混用衬线体
+    borderRadius: '4px',       // 古典风格稍微带一点圆角 (羊皮纸边缘)
+    borderRadiusSmall: '2px',
     
     // 全局边框
     borderColor: sidConPalette.border,
@@ -104,25 +98,19 @@ export const sidConThemeOverrides: GlobalThemeOverrides = {
   // --- 组件级定制 ---
   
   Button: {
-    // 按钮更加扁平化，强调边框
+    // 按钮增加古典边框感
     border: `1px solid ${sidConPalette.border}`,
-    borderHover: `1px solid ${sidConPalette.primary}`,
+    borderHover: `1px solid ${sidConPalette.primaryHover}`,
     borderPressed: `1px solid ${sidConPalette.primaryPressed}`,
     borderFocus: `1px solid ${sidConPalette.primary}`,
     
     textColor: sidConPalette.primary,
-    textColorBase: sidConPalette.primary,
     textColorHover: '#fff',
     textColorPressed: '#fff',
     textColorFocus: sidConPalette.primary,
-    textColorDisabled: sidConPalette.primary,
-
-    colorOpacitySecondary: 0, 
-    colorSecondaryHover: 'rgba(0, 212, 255, 0.15)',
-    colorSecondaryPressed: 'rgba(0, 212, 255, 0.3)',
-
-
-    fontWeight: 'bold',
+    
+    // 字体使用标题衬线体
+    fontWeight: '700',
     fontFamily: titleFontStack,
     
     ...createButtonVariant(sidConPalette.primary, ''),
@@ -134,23 +122,23 @@ export const sidConThemeOverrides: GlobalThemeOverrides = {
   },
   
   Card: {
-    // 卡片像一个玻璃面板
+    // 卡片背景
     color: sidConPalette.bgCard,
     borderColor: sidConPalette.border,
     textColor: sidConPalette.textBase,
     titleTextColor: sidConPalette.primary,
-    titleFontWeight: 'bold',
+    titleFontWeight: '700',
     fontFamily: fontStack,
   },
   
   Input: {
-    // 输入框像数据录入终端
+    // 像古老的输入石板或魔法卷轴
     color: 'rgba(0, 0, 0, 0.3)',
-    colorFocus: 'rgba(0, 10, 20, 0.5)',
+    colorFocus: 'rgba(20, 10, 30, 0.5)',
     border: `1px solid ${sidConPalette.border}`,
     borderHover: `1px solid ${sidConPalette.primary}`,
     borderFocus: `1px solid ${sidConPalette.primary}`,
-    boxShadowFocus: `0 0 8px rgba(0, 212, 255, 0.3)`,
+    boxShadowFocus: `0 0 8px ${sidConPalette.primarySuppl}`,
     textColor: sidConPalette.textBase,
     caretColor: sidConPalette.primary,
   },
@@ -166,7 +154,6 @@ export const sidConThemeOverrides: GlobalThemeOverrides = {
       },
       InternalSelectMenu: {
         color: sidConPalette.bgOverlay,
-        // border: `1px solid ${sciFiPalette.border}`,
         optionTextColor: sidConPalette.textBase,
         optionTextColorActive: sidConPalette.primary,
         optionCheckColor: sidConPalette.primary,
@@ -175,35 +162,37 @@ export const sidConThemeOverrides: GlobalThemeOverrides = {
   },
 
   DataTable: {
-    // 表格像数据清单
-    thColor: 'rgba(0, 212, 255, 0.1)', // 表头淡青色背景
+    // 魔法账本风格
+    thColor: 'rgba(212, 175, 55, 0.1)', // 金色微光表头
     thTextColor: sidConPalette.primary,
-    thFontWeight: 'bold',
+    thFontWeight: '700',
+    thFontFamily: titleFontStack,
     tdColor: 'transparent',
     tdTextColor: sidConPalette.textBase,
     borderColor: sidConPalette.border,
-    tdColorHover: 'rgba(0, 212, 255, 0.05)',
+    tdColorHover: 'rgba(212, 175, 55, 0.1)',
   },
   
   Dialog: {
-    // 弹窗像系统警告框
+    // 魔法契约/提示框
     color: sidConPalette.bgOverlay,
     border: `1px solid ${sidConPalette.primary}`,
     titleTextColor: sidConPalette.primary,
+    titleFontFamily: titleFontStack, // 标题使用衬线体
     textColor: sidConPalette.textBase,
     iconColor: sidConPalette.primary,
     headerBorderBottom: `1px solid ${sidConPalette.border}`,
   },
 
   Alert: {
-    color: 'rgba(0, 20, 40, 0.6)',
+    color: 'rgba(35, 20, 50, 0.8)',
     border: `1px solid ${sidConPalette.border}`,
     titleTextColor: sidConPalette.primary,
     contentTextColor: sidConPalette.textBase,
   },
 
   Tooltip: {
-    color: 'rgba(0, 10, 20, 0.95)',
+    color: 'rgba(15, 5, 20, 0.95)',
     textColor: sidConPalette.primary,
     border: `1px solid ${sidConPalette.border}`,
   },

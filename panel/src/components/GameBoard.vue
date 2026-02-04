@@ -8,7 +8,7 @@ import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
 import { getSpecieColor, getSpecieZhName } from '@/interfaces/GameConfig';
 import { socket } from '@/utils/connect';
 import SpecieZhDiv from '@/components/SpecieZhDiv.vue';
-import { sidConThemeOverrides } from '@/interfaces/SidConTheme';
+import { sidConThemeOverrides } from '@/interfaces/MagicConTheme';
 
 const props = defineProps<{
   gameState: GameState;

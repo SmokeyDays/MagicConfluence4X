@@ -9,8 +9,4 @@ export const serverURL = isProduction ? production : local;
 
 export let DEBUG_MODE: boolean = true;
 
-export function toggleDebugMode() {
-  DEBUG_MODE = !DEBUG_MODE;
-}
-
 export const BOT_FEATURE_ENABLED = false;

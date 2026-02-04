@@ -1,5 +1,5 @@
-<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#C70039" stroke-width="4">
-  <circle cx="32" cy="32" r="12" />
-  <path d="M32 4 L32 16 M32 48 L32 60 M4 32 L16 32 M48 32 L60 32" stroke-linecap="round"/>
-  <path d="M12 12 L20 20 M44 44 L52 52 M12 52 L20 44 M44 20 L52 12" stroke-linecap="round"/>
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="#C70039" stroke="none">
+  <!-- Solid Fireball/Magic -->
+  <circle cx="32" cy="32" r="16" />
+  <path d="M32 0 L36 20 L56 24 L36 28 L32 48 L28 28 L8 24 L28 20 Z" />
 </svg>

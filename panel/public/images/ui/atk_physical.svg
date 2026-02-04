@@ -1,4 +1,7 @@
-<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#FF5733" stroke-width="4">
-  <path d="M12 52 L52 12 M48 8 L56 16 M8 56 L16 48" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M40 20 L44 24" />
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="#FF5733" stroke="#FF5733" stroke-width="2">
+  <!-- Solid Hammer -->
+  <rect x="28" y="24" width="8" height="36" rx="2" fill="#8B4513" stroke="none"/>
+  <rect x="12" y="4" width="40" height="24" rx="2" fill="#FF5733"/>
+  <rect x="8" y="8" width="4" height="16" fill="#C0392B" stroke="none"/>
+  <rect x="52" y="10" width="4" height="12" fill="#C0392B" stroke="none"/>
 </svg>

@@ -24,7 +24,7 @@ import Achievement3 from './components/icons/alerts/Achievement3.vue';
 import IconUtils from './components/icons/IconUtils.vue';
 import IconRobot from './components/icons/IconRobot.vue';
 import { pubMsg } from './utils/general';
-import { sidConThemeOverrides } from './interfaces/SidConTheme';
+import { sidConThemeOverrides } from './interfaces/MagicConTheme';
 import { generateMockGame } from './utils/mock';
 
 const rooms = ref<RoomList>({});

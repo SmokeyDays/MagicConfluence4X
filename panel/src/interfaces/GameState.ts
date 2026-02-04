@@ -21,7 +21,7 @@ export class TroopTemplate {
     public max_size: number,
 
     public element_suitability: Record<string, number>,
-    public tier: number,
+    public era: number,
   ) {}
 }
 

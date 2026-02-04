@@ -1,4 +1,4 @@
-import { GameState, HexCell, Troop, TroopTemplate, type TerrainType } from '../interfaces/GameState';
+import { GameState, HexCell, Troop, TroopAbility, TroopTemplate, type TerrainType } from '../interfaces/GameState';
 import { defineHex, Grid, rectangle, Orientation } from 'honeycomb-grid';
 
 const TERRAIN_TYPES: TerrainType[] = ['Plain', 'Hill', 'Swamp', 'Lake', 'Mountain', 'Forest'];
@@ -8,24 +8,35 @@ const TERRAIN_TYPES: TerrainType[] = ['Plain', 'Hill', 'Swamp', 'Lake', 'Mountai
 // However, honeycomb handles the offset->axial conversion for rectangle shapes nicely.
 class GenHex extends defineHex({ orientation: Orientation.POINTY }) {}
 
+const militiaAbility = new TroopAbility('Untrained', 'Gain -1|-1/-1 when no other friendly troops are in combat.');
+
 const mockTroopTemplate = new TroopTemplate(
   'militia',
   'Assault',
   'Elite melee troops wielding enchanted swords.',
-  [],
+  [militiaAbility],
   'A',
   4,
-  'Magical',
+  'Physical',
   { Physical: 0, Magical: 0 },
   1,
-  3,
-  { },
+  4,
+  { Forest: 1.2 },
   2,
 );
 
 export function generateMockTroops(): Troop[] {
   const troops = [
-    new Troop('troop1', 'Player1', mockTroopTemplate, false, 50, [2, 2]),
+    new Troop('troop1', 'Player1', mockTroopTemplate, false, 3, [2, 2]),
+    new Troop('troop2', 'Player1', mockTroopTemplate, false, 3, [2, 2]),
+    new Troop('troop3', 'Player1', mockTroopTemplate, false, 3, [2, 2]),
+    new Troop('troop4', 'Player1', mockTroopTemplate, false, 3, [2, 2]),
+    new Troop('troop5', 'Player1', mockTroopTemplate, false, 3, [3, 3]),
+    new Troop('troop6', 'Player1', mockTroopTemplate, false, 3, [3, 3]),
+    new Troop('troop7', 'Player1', mockTroopTemplate, false, 3, [3, 3]),
+    new Troop('troop8', 'Player1', mockTroopTemplate, false, 3, [3, 2]),
+    new Troop('troop9', 'Player1', mockTroopTemplate, false, 3, [3, 2]),
+    new Troop('troop10', 'Player1', mockTroopTemplate, false, 3, [4, 4]),
   ];
   return troops;
 }

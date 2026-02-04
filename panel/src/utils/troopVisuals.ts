@@ -56,11 +56,11 @@ export function createTroopVisual(
     const sprite = new Sprite(portraitTexture);
     sprite.anchor.set(0.5);
     
-    // Scale to fit nicely within the card, maybe leaving room for stats
-    // Let's fill the center mainly
-    // Target size: width - 4 padding
-    const targetSize = w - 4;
-    const scale = targetSize / Math.max(portraitTexture.width, portraitTexture.height);
+    // Scale to fit nicely within the card, ensuring it is not truncated
+    const maxWidth = w - 4;
+    const maxHeight = h - 4;
+    const scale = Math.min(maxWidth / portraitTexture.width, maxHeight / portraitTexture.height);
+    
     sprite.scale.set(scale);
     sprite.y = -2; // Shift up slightly to leave room for pips
     
